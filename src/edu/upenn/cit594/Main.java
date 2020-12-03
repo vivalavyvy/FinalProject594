@@ -1,4 +1,4 @@
-package edu.upenn.cit954;
+package edu.upenn.cit594;
 
 import edu.upenn.cit594.ui.GUI;
 
