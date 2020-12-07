@@ -1,5 +1,5 @@
 package edu.upenn.cit594.datamanagement;
 
-public class ReadCSV {
+public class JSONReader {
 
 }

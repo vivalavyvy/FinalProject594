@@ -22,7 +22,7 @@ public class Main {
 			System.out.println("arg" + "[" + i + "]" + " " + args[i] + "\n");
 		}
 
-		if (args.length < 5 || args.length > 5) {
+		if (args.length != 5) {
 			System.err.println("Wrong number of arguments");
 			System.exit(-1);
 		}
