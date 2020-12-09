@@ -5,13 +5,13 @@ import java.io.PrintWriter;
 
 public class Logger {
 
-	private String fileName;
+	private static String fileName;
 	private PrintWriter out;
 
 	// 1. private constuctor
 	private Logger(String fileName) {
 		// TODO Auto-generated constructor stub
-		this.fileName = fileName;
+		Logger.fileName = fileName;
 
 		try {
 
@@ -44,7 +44,7 @@ public class Logger {
 	private static Logger logger = null;
 
 	// 3. singleton accessor method
-
+	
 	public static Logger getInstance(String fileName) {
 		if (logger == null) {
 			logger = new Logger(fileName);
@@ -52,5 +52,6 @@ public class Logger {
 
 		return logger;
 	}
+	
 
 }

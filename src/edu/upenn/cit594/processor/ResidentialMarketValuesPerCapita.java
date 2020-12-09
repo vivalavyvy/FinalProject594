@@ -1,7 +1,9 @@
 package edu.upenn.cit594.processor;
 
-import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import edu.upenn.cit594.data.Properties;
 import edu.upenn.cit594.datamanagement.csvReader;
 
 public class ResidentialMarketValuesPerCapita {
@@ -20,9 +22,8 @@ public class ResidentialMarketValuesPerCapita {
 	 * @since 12/9
 	 * @param zipCode
 	 */
-	private int findPopulationForZipCode(String zipCode) {
+	private int findPopulationForZipCode(String zipCode,Map<String, Integer> populationByZipCode) {
 		
-		HashMap<String, Integer> populationByZipCode = csvReader.getPopulationByZipcode();
 		
 		for (String zipCodeIterator : populationByZipCode.keySet()) {
 			
@@ -44,10 +45,34 @@ public class ResidentialMarketValuesPerCapita {
 	 * @param zipCode
 	 * @return
 	 */
-	private int findSumOfMarketValueForZipCode(String zipCode) {
+	private int findSumOfMarketValueForZipCode(String zipCode, List<Properties> propertiesList) {
+		
+		int sumOfMarketValue = 0;
+		
+		for (Properties p: propertiesList) {
+			
+			if(p.getZipCode().equals(zipCode)) {
+				
+				sumOfMarketValue += Integer.parseInt(p.getMarketValue());
+			}
+			
+		}
+		
+		return sumOfMarketValue;
+		
+	}
+	
+	/**
+	 * @author stevebaca
+	 * @since 12/9
+	 * @return
+	 */
+	public double calculateTotalResidentialMarketValuePerCapita(String zipCode, List<Properties> propertiesList, Map<String, Integer> populationByZipCode) {
+		
+		double totalResidentialMarketValuePerCapita = findSumOfMarketValueForZipCode(zipCode, propertiesList)/findPopulationForZipCode(zipCode, populationByZipCode);
 		
 		
-		
+		return totalResidentialMarketValuePerCapita;
 	}
 	
 	
