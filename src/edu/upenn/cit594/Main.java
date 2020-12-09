@@ -14,7 +14,7 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 		
-		GUI gui = new GUI();
+	
 		
 
 		//showing what the different args are that has been passed to main 
@@ -31,6 +31,9 @@ public class Main {
 			System.err.println("Please change the first argument to either csv or json");
 			System.exit(-1);
 		}
+		
+		
+		
 		
 		
 

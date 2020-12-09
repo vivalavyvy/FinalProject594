@@ -4,18 +4,63 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
 
+import edu.upenn.cit594.data.Parking;
 import edu.upenn.cit594.data.Population;
 import edu.upenn.cit594.data.Properties;
 
-public class CSVReader {
+public class csvReader implements Reader {
 	
 	protected String properties;
 	protected String population;
+	protected String parking;
 	
-	public CSVReader (String properties, String population) {
+	public csvReader (String properties, String parking, String population) {
 		this.properties = properties;
+		this.parking = parking;
 		this.population = population;
 	}
+	
+	public List<Parking> getAllParkingInfo(){
+		Scanner input = null;
+		List<Parking> parkingList = new ArrayList<Parking>();
+		
+		try {
+			input = new Scanner (new File ("parking.csv"));
+			//int count = 0;
+			while (input.hasNextLine()) {
+				String lineOfParking = input.nextLine();
+				String testArray[]= lineOfParking.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)"); //regex used to split the string by commas not in quotation marks
+				
+				String parkingFineString = testArray[1];
+				int parkingFine = Integer.parseInt(parkingFineString);
+				//System.out.println(parkingFine);
+				
+				String licensePlateState = testArray[4];
+				//System.out.println(licensePlateState);
+				
+				String zipcodeString = "";
+				
+				if (testArray.length == 7) {
+					zipcodeString = testArray[6];
+				}
+				//System.out.println(zipcodeString);
+				
+				parkingList.add(new Parking(zipcodeString, parkingFine, licensePlateState));
+				//System.out.println(parkingList.get(count));
+				//count++;
+			}
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			input.close();
+			
+		}
+		return parkingList;
+}
+	
+	
 	
 	public List<Properties> getAllPropertyInfo(){
 		
@@ -25,7 +70,7 @@ public class CSVReader {
 		try {
 			
 			// read in properties.csv file
-			input = new Scanner (new File("properties.csv"));
+			input = new Scanner (new File("properties.csv")); // CAUTION CHANGE THIS TO THE VARIABLE NAME WHEN WE CONNECT IT TO MAIN CLASS, APPLY ELSEWHERE TOO
 			
 			// read in header files and split into tokens
 			String headersOfCSV = input.nextLine();
@@ -80,25 +125,28 @@ public class CSVReader {
 	} 
 
 	
-	public List<Population> getPopulationByZipcode() {
+	public Map<String, Integer> getPopulationByZipcode() {
 		
-		List<Population> populationByZipcode = new ArrayList<Population>();
+		Map <String, Integer> populationByZipCode = new HashMap<String, Integer>();
+		
+		//List<Population> populationByZipcode = new ArrayList<Population>();
+		
 		
 		Scanner input = null;
 		
 		try {
 			input = new Scanner (new File(population));
-			input.useDelimiter("\\s+\n");
 			
-			while (input.hasNext()) {
-				String s = input.next();
+			while (input.hasNextLine()) {
+				String s = input.nextLine();
+				String testArray[] = s.split("\\s");
 				
-				String zipcodeString = input.next();
+				String zipcodeString = testArray[0];
 			
-				String populationString = input.next();
+				String populationString = testArray[1];
 				int populationInteger = Integer.parseInt(populationString);
 				
-				populationByZipcode.add(new Population (zipcodeString, populationInteger));
+				populationByZipCode.put(zipcodeString, populationInteger);
 			}
 			
 			
@@ -108,12 +156,13 @@ public class CSVReader {
 		}
 		finally {
 			input.close();
-		}
+		}	
 		
-		
-		return populationByZipcode;
+		return populationByZipCode;
 		
 	}
 		
+	
+	
 	
 }

@@ -27,29 +27,17 @@ public class Logger {
 
 	/**
 	 * @author stevebaca
-	 * @since 12/08
-	 * @param Args
+	 * @since 12/09
+	 * @param input
 	 */
-	public void writeRunTimeArgs(String[] args) {
+	public void writeToLogger(String input) {
 
-		for (int i = 0; i < args.length; i++) {
-
-			out.println(System.currentTimeMillis() + " " + args[i]);
+			out.println(System.currentTimeMillis() + " " + input);
 			out.flush();
 
-		}
 	}
 
-	/**
-	 * @author stevebaca
-	 * @since 12/08
-	 * @param test
-	 */
-	public void openedForReading(String fileName) {
-
-		out.println(System.currentTimeMillis() + " " + fileName);
-		out.flush();
-	}
+	
 
 	// 2. singleton instance
 	// I was told by a TA to hard code the name of the logger file into this class
